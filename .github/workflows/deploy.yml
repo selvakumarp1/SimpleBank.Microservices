@@ -69,6 +69,14 @@ jobs:
         aws eks update-kubeconfig --region ap-southeast-1 --name simplebank-cluster
         kubectl apply -f k8s/
 
+    # ✅ For Versioning Description
+    - name: Annotate deployment changes
+      run: |
+        kubectl annotate deployment customer-api kubernetes.io/change-cause="customer-api:v1-${{ github.run_number }}" --overwrite
+        kubectl annotate deployment account-api kubernetes.io/change-cause="account-api:v1-${{ github.run_number }}" --overwrite
+        kubectl annotate deployment transaction-api kubernetes.io/change-cause="transaction-api:v1-${{ github.run_number }}" --overwrite
+        kubectl annotate deployment web-ui kubernetes.io/change-cause="react-ui:v1-${{ github.run_number }}" --overwrite
+
     # ✅ Restart pods
     - name: Restart deployments
       run: |
