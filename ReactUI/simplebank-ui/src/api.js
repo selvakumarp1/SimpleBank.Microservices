@@ -1,4 +1,5 @@
-const BASE_URL = "http://a1c9a2c0563cf40098cf94958de56fb8-1348290131.ap-southeast-1.elb.amazonaws.com/api/gateway";
+const BASE_URL = "/api/gateway";//For https
+//const BASE_URL = "http://a1c9a2c0563cf40098cf94958de56fb8-1348290131.ap-southeast-1.elb.amazonaws.com/api/gateway";//works non https
 //const BASE_URL = "http://localhost:5000/api/gateway";//for local before Kubernetes, Docker
 // ✅ GET
 export async function getCustomers() {
