@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: customer-api
-          image: 175562787706.dkr.ecr.ap-southeast-1.amazonaws.com/customer-api:latest
+          image: selvaacr2026.azurecr.io/customer-api:latest
 
           ports:
             - containerPort: 80
@@ -32,3 +32,11 @@ spec:
                 secretKeyRef:
                   name: customer-db-secret
                   key: CONNECTION_STRING
+
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"

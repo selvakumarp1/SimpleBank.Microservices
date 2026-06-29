@@ -1,31 +1,60 @@
-const BASE_URL = "/api/gateway";//For https
-//const BASE_URL = "http://a1c9a2c0563cf40098cf94958de56fb8-1348290131.ap-southeast-1.elb.amazonaws.com/api/gateway";//works non https
-//const BASE_URL = "http://localhost:5000/api/gateway";//for local before Kubernetes, Docker
-// ✅ GET
+const BASE_URL = "/api/gateway";
+
+// ✅ Helper to attach token
+function getAuthHeaders() {
+  const token = localStorage.getItem("token");
+
+  return {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${token}`
+  };
+}
+
+// ✅ GET CUSTOMERS
 export async function getCustomers() {
-  const res = await fetch(`${BASE_URL}/customers`);
+  const res = await fetch(`${BASE_URL}/customers`, {
+    method: "GET",
+    headers: getAuthHeaders()
+  });
+
+  if (!res.ok) throw new Error("Failed to fetch customers");
+
   return res.json();
 }
 
+// ✅ GET ACCOUNTS
 export async function getAccounts() {
-  const res = await fetch(`${BASE_URL}/accounts`);
+  const res = await fetch(`${BASE_URL}/accounts`, {
+    method: "GET",
+    headers: getAuthHeaders()
+  });
+
+  if (!res.ok) throw new Error("Failed to fetch accounts");
+
   return res.json();
 }
 
+// ✅ GET TRANSACTIONS
 export async function getTransactions() {
-  const res = await fetch(`${BASE_URL}/transactions`);
+  const res = await fetch(`${BASE_URL}/transactions`, {
+    method: "GET",
+    headers: getAuthHeaders()
+  });
+
+  if (!res.ok) throw new Error("Failed to fetch transactions");
+
   return res.json();
 }
 
-// ✅ POST
+// ✅ CREATE TRANSACTION
 export async function createTransaction(data) {
   const res = await fetch(`${BASE_URL}/transactions`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
+    headers: getAuthHeaders(),
     body: JSON.stringify(data)
   });
+
+  if (!res.ok) throw new Error("Transaction failed");
 
   return res.json();
 }

@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: transaction-api
-          image: 175562787706.dkr.ecr.ap-southeast-1.amazonaws.com/transaction-api:latest
+          image: selvaacr2026.azurecr.io/transaction-api:latest
 
           ports:
             - containerPort: 80

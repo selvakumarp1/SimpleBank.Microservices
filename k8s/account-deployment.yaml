@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: account-api
-          image: 175562787706.dkr.ecr.ap-southeast-1.amazonaws.com/account-api:latest
+          image: selvaacr2026.azurecr.io/account-api:latest
 
           ports:
             - containerPort: 80

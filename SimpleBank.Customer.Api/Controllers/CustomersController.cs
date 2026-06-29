@@ -28,6 +28,7 @@ namespace SimpleBank.Customers.Api.Controllers
         */
 
          //Later enable it after Mock Data Method tested (above)..
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {

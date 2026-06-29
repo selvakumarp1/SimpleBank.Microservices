@@ -2,6 +2,7 @@
 using SimpleBank.Gateway.Services;
 using SimpleBank.Gateway.Models;
 using System.Text.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SimpleBank.Gateway.Controllers
 {
@@ -30,6 +31,7 @@ namespace SimpleBank.Gateway.Controllers
         }
 
         // ✅ CUSTOMER
+        [Authorize]
         [HttpGet("customers")]
         public async Task<IActionResult> GetCustomers()
         {
@@ -49,6 +51,7 @@ namespace SimpleBank.Gateway.Controllers
         }
 
         // ✅ ACCOUNT
+        [Authorize]
         [HttpGet("accounts")]
         public async Task<IActionResult> GetAccounts()
         {
@@ -84,6 +87,7 @@ public async Task<IActionResult> CreateTransaction([FromBody] object request)
 
 
         // ✅ TRANSACTION
+        [Authorize]
         [HttpGet("transactions")]
         public async Task<IActionResult> GetTransactions()
         {

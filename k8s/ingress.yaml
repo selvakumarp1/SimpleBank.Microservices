@@ -3,30 +3,48 @@ kind: Ingress
 metadata:
   name: simplebank-ingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "60"
 
 spec:
-  ingressClassName: nginx   # ✅ THIS IS THE KEY FIX
+  ingressClassName: nginx
 
-  tls:
-  - secretName: tls-secret
+  # tls:
+  #   - hosts:
+  #       - your-domain.com   # 🔥 Replace later
+  #     secretName: tls-secret
 
   rules:
-  - http:
-      paths:
+    - host: your-domain.com   # 🔥 Replace later
+      http:
+        paths:
 
-      - path: /api
-        pathType: Prefix
-        backend:
-          service:
-            name: gateway-service
-            port:
-              number: 80
+          # ✅ Auth
+          - path: /api/auth
+            pathType: Prefix
+            backend:
+              service:
+                name: gateway-service
+                port:
+                  number: 80
 
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: web-ui-service
-            port:
-              number: 80
+          # ✅ Gateway APIs
+          - path: /api/gateway
+            pathType: Prefix
+            backend:
+              service:
+                name: gateway-service
+                port:
+                  number: 80
+
+          # ✅ UI
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: web-ui-service
+                port:
+                  number: 80

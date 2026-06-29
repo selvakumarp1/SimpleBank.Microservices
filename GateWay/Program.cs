@@ -5,15 +5,14 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ✅ Add controllers
+// ✅ Controllers
 builder.Services.AddControllers();
-builder.Services.AddAuthorization();
 
-// ✅ Swagger (simple + stable)
+// ✅ Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// ✅ CORS (for React)
+// ✅ CORS (single clean policy)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -24,11 +23,10 @@ builder.Services.AddCors(options =>
     });
 });
 
-// ✅ HttpClient for services
+// ✅ HttpClients
 builder.Services.AddHttpClient<CustomerServiceClient>();
 builder.Services.AddHttpClient<AccountServiceClient>();
 builder.Services.AddHttpClient<TransactionServiceClient>();
-
 
 // ✅ JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -45,39 +43,21 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-    builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowReact",
-        policy =>
-        {
-            policy.AllowAnyOrigin()
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-        });
-});
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-app.UseCors("AllowReact");
+// ✅ Middleware order (IMPORTANT)
+app.UseCors("AllowAll");
 
-// ✅ Swagger UI
-//if (app.Environment.IsDevelopment())
-//{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-//}
+app.UseAuthentication();   // MUST COME BEFORE Authorization
+app.UseAuthorization();
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
-// ✅ Enable CORS
-app.UseCors("AllowAll");
-
-// ✅ JWT Middleware
-app.UseAuthentication();
-app.UseAuthorization();
-
-
-// ✅ Map APIs
 app.MapControllers();
 
 app.Run();

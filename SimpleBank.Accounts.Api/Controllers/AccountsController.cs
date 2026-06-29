@@ -21,6 +21,7 @@ namespace SimpleBank.Accounts.Api.Controllers
         }
 
         // ✅ GET ALL ACCOUNTS
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {

@@ -2,18 +2,23 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: web-ui
+
 spec:
   replicas: 1
+
   selector:
     matchLabels:
       app: web-ui
+
   template:
     metadata:
       labels:
         app: web-ui
+
     spec:
       containers:
         - name: web-ui
-          image: 175562787706.dkr.ecr.ap-southeast-1.amazonaws.com/react-ui:latest
+          image: selvaacr2026.azurecr.io/react-ui:latest
+
           ports:
             - containerPort: 80

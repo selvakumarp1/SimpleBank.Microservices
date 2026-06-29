@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SimpleBank.Gateway.Controllers
 {
@@ -10,6 +11,7 @@ namespace SimpleBank.Gateway.Controllers
     [Route("api/auth")]
     public class AuthController : ControllerBase
     {
+        [AllowAnonymous]
         [HttpPost("login")]
         public IActionResult Login()
         {
